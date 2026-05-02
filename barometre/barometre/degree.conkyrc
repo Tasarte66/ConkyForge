@@ -1,0 +1,41 @@
+conky.config = {
+-- — Conky settings
+
+	background = true,  
+	use_xft = true,
+	font = 'Ubunto Mono:size=11',
+	xftalpha = 1,
+	update_interval = 3600,
+	total_run_times = 0,
+	own_window = true,
+	own_window_transparent = true,  
+    own_window_argb_visual = true,
+    own_window_argb_value = 0,     
+	own_window_type = 'desktop',
+	own_window_hints = 'undecorated,below,skip_taskbar,skip_pager,',
+	double_buffer = true,
+	minimum_width = 10, minimum_height = 10,
+    maximum_width = 10,
+	text_buffer_size = 2048,
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+	default_color = 'white',
+	alignment = 'top_middle',
+	gap_x = 486,
+	gap_y = 368,
+    color0 = '#2a9ad2',
+	no_buffers = true,
+	uppercase = false,
+	cpu_avg_samples = 2,
+	override_utf8_locale = true,
+        imlib_cache_flush_interval = 60,
+	imlib_cache_size = 10000,
+	stippled_borders = 5,
+        default_shade_color = '#333333',
+};
+
+conky.text = [[
+${font}${color0}°
+]];

@@ -1,0 +1,52 @@
+conky.config = {
+-- — Conky settings
+
+	background = true,  
+	use_xft = true,
+	font = 'Dyuthi:size=10',
+	xftalpha = 1,
+	update_interval = 5,
+	total_run_times = 0,
+	own_window = true,
+	own_window_transparent = true,  
+        own_window_argb_visual = true,
+        own_window_argb_value = 0,     -- 0 transparent 255 plein  ${execpi 3600 bash ~/.conky/conky-draw/barometre/.barometre.sh -f 2015}
+	own_window_type = 'normal',
+	own_window_hints = 'undecorated,below,skip_taskbar,skip_pager,',
+	double_buffer = true,
+	minimum_width = 188, minimum_height = 223,
+        maximum_width = 188,
+	text_buffer_size = 2048,
+	draw_shades = false,
+	draw_outline = true,
+	draw_borders = false,
+	draw_graph_borders = false,
+	default_color = 'white',
+	default_outline_color = 'black',
+	alignment = 'top_left',
+	gap_x = 661,
+	gap_y = 224,
+	no_buffers = true,
+	uppercase = false,
+	cpu_avg_samples = 2,
+	override_utf8_locale = true,
+        imlib_cache_flush_interval = 60,
+	imlib_cache_size = 10000,
+	stippled_borders = 5,
+        default_shade_color = '#333333',
+	default_outline_color = 'black',
+
+
+-- Lua Load
+
+	lua_load = 'barometre1.lua image.lua draw_bg.lua',
+	lua_draw_hook_pre = 'main_weather',
+	lua_draw_hook_post = 'image',
+	
+};
+conky.text = [[
+${execpi 600 ./conditions.sh}
+
+${goto 70 }${voffset 181}Barometer
+]];
+

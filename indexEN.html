@@ -3,147 +3,244 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ConkyForge V10.41 - Universal Matrix Update</title>
-    <link rel="stylesheet" media="screen" href="css/style.css">
+    <title>ConkyForge V.3 - The Ultimate Conky Builder</title>
+
+    <!-- TAILWIND ENGINE -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ZIP LIBRARY (Local or CDN) -->
+    <script src="js/jszip.min.js"></script>
+
+    <!-- CUSTOM SCROLLBAR & HANDLES CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #64748b; }
+    </style>
 </head>
-<body>
-    <div id="sidebar">
-        <h2 style="color: var(--col-ram); font-size: 1.1rem;">🛠️ ConkyForge V10.41</h2>
+<body class="bg-slate-900 text-slate-300 font-sans h-screen flex overflow-hidden selection:bg-cyan-500 selection:text-white m-0">
 
-        <h2>🎨 Color Palette</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 5px;">
-            <div style="display:flex; align-items:center; gap:5px; background:#44475a; padding:3px; border-radius:3px;">
-                <input type="color" id="color-text" value="#f8f8f2" style="width:25px; height:25px; border:none; padding:0; cursor:pointer;">
-                <label style="font-size: 0.65rem; color: white;">Base Text</label>
-            </div>
-            <div style="display:flex; align-items:center; gap:5px; background:#44475a; padding:3px; border-radius:3px;">
-                <input type="color" id="color-accent" value="#8be9fd" style="width:25px; height:25px; border:none; padding:0; cursor:pointer;">
-                <label style="font-size: 0.65rem; color: white;">Accent / Icon</label>
-            </div>
-            <div style="display:flex; align-items:center; gap:5px; background:#44475a; padding:3px; border-radius:3px;">
-                <input type="color" id="color-cpu" value="#bd93f9" style="width:25px; height:25px; border:none; padding:0; cursor:pointer;">
-                <label style="font-size: 0.65rem; color: white;">CPU Color</label>
-            </div>
-            <div style="display:flex; align-items:center; gap:5px; background:#44475a; padding:3px; border-radius:3px;">
-                <input type="color" id="color-ram" value="#50fa7b" style="width:25px; height:25px; border:none; padding:0; cursor:pointer;">
-                <label style="font-size: 0.65rem; color: white;">RAM Color</label>
-            </div>
-            <div style="display:flex; align-items:center; gap:5px; background:#44475a; padding:3px; border-radius:3px;">
-                <input type="color" id="color-disk" value="#f1fa8c" style="width:25px; height:25px; border:none; padding:0; cursor:pointer;">
-                <label style="font-size: 0.65rem; color: white;">Disk Color</label>
-            </div>
-            <div style="display:flex; align-items:center; gap:5px; background:#44475a; padding:3px; border-radius:3px;">
-                <input type="color" id="color-temp" value="#ff5555" style="width:25px; height:25px; border:none; padding:0; cursor:pointer;">
-                <label style="font-size: 0.65rem; color: white;">Temp Color</label>
-            </div>
-        </div>
+    <!-- SIDEBAR -->
+    <div id="sidebar" class="w-80 bg-slate-800 border-r border-slate-700 p-4 flex flex-col gap-4 overflow-y-auto custom-scrollbar shadow-2xl z-10 shrink-0">
 
-        <h2>⚙️ Settings</h2>
-        <div style="display: flex; gap: 5px;">
-            <div><label style="font-size: 0.7rem; color: var(--col-accent);">Width:</label><input type="number" id="config-width" value="400" style="width: 100%; background: #44475a; color: white; border: none; padding: 4px;"></div>
-            <div><label style="font-size: 0.7rem; color: var(--col-accent);">Height:</label><input type="number" id="config-height" value="1000" style="width: 100%; background: #44475a; color: white; border: none; padding: 4px;"></div>
-        </div>
+        <h2 class="text-green-400 font-bold text-lg border-b border-slate-700 pb-2 mb-2 flex items-center gap-2">
+            <span>🛠️</span> ConkyForge V10.41.1
+        </h2>
 
-        <div style="display: flex; gap: 5px;">
-            <div style="flex-grow:1;"><label style="font-size: 0.7rem; color: var(--col-disk); font-weight: bold;">Web Zoom:</label><input type="number" id="config-scale" value="1.0" step="0.1" min="0.5" max="4.0" style="width:100%; background: #44475a; color: white; border: 1px solid var(--col-disk); padding: 4px; border-radius: 3px;"></div>
-            <div style="flex-grow:1;"><label style="font-size: 0.7rem; color: var(--col-temp); font-weight: bold;">Line Spacing (Y):</label><input type="number" id="config-lineheight" value="16" min="10" max="30" style="width:100%; background: #44475a; color: white; border: 1px solid var(--col-temp); padding: 4px; border-radius: 3px;"></div>
-        </div>
-
-        <div style="display: flex; gap: 5px; margin-top: 2px;">
-            <div style="flex-grow:1;">
-                <label style="font-size: 0.7rem; color: var(--col-ram); font-weight: bold;">System Font:</label>
-                <div style="display: flex; gap: 2px;">
-                    <select id="config-font" style="width: 100%; background: #44475a; color: white; border: 1px solid var(--col-ram); padding: 4px; border-radius: 3px; outline: none;">
-                        <option value="DejaVu Sans">DejaVu Sans</option>
-                        <option value="Ubuntu">Ubuntu</option>
-                        <option value="Noto Sans">Noto Sans</option>
-                        <option value="Roboto">Roboto</option>
-                        <option value="Hack">Hack (Mono)</option>
-                        <option value="Fira Code">Fira Code (Mono)</option>
-                        <option value="Liberation Sans">Liberation Sans</option>
-                        <option value="Arial">Arial</option>
-                        <option value="CUSTOM">Custom type...</option>
-                    </select>
-                    <input type="text" id="config-font-custom" placeholder="Ex: Terminus" style="display:none; width: 50%; background: #44475a; color: white; border: 1px solid var(--col-ram); padding: 4px; border-radius: 3px; box-sizing: border-box;">
+        <!-- Color Palette -->
+        <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex justify-between items-center">
+                <span>🎨 Hex Palette</span>
+                <a href="https://htmlcolorcodes.com/" target="_blank" class="text-cyan-400 hover:text-cyan-300 text-[10px] border border-cyan-800 hover:border-cyan-400 px-2 py-1 rounded transition-colors no-underline">Color CheatSheet</a>
+            </h2>
+            <div class="grid grid-cols-2 gap-2">
+                <div class="flex items-center gap-2 bg-slate-800 p-1 rounded border border-slate-700 hover:border-slate-500 transition-colors">
+                    <input type="color" id="color-text" value="#f8f8f2" class="w-6 h-6 border-0 p-0 cursor-pointer rounded bg-transparent">
+                    <label class="text-[10px] text-slate-300 cursor-pointer">Base Text</label>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-800 p-1 rounded border border-slate-700 hover:border-slate-500 transition-colors">
+                    <input type="color" id="color-accent" value="#8be9fd" class="w-6 h-6 border-0 p-0 cursor-pointer rounded bg-transparent">
+                    <label class="text-[10px] text-slate-300 cursor-pointer">Accent / Icon</label>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-800 p-1 rounded border border-slate-700 hover:border-slate-500 transition-colors">
+                    <input type="color" id="color-cpu" value="#bd93f9" class="w-6 h-6 border-0 p-0 cursor-pointer rounded bg-transparent">
+                    <label class="text-[10px] text-slate-300 cursor-pointer">CPU Color</label>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-800 p-1 rounded border border-slate-700 hover:border-slate-500 transition-colors">
+                    <input type="color" id="color-ram" value="#50fa7b" class="w-6 h-6 border-0 p-0 cursor-pointer rounded bg-transparent">
+                    <label class="text-[10px] text-slate-300 cursor-pointer">RAM Color</label>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-800 p-1 rounded border border-slate-700 hover:border-slate-500 transition-colors">
+                    <input type="color" id="color-disk" value="#f1fa8c" class="w-6 h-6 border-0 p-0 cursor-pointer rounded bg-transparent">
+                    <label class="text-[10px] text-slate-300 cursor-pointer">Disk Color</label>
+                </div>
+                <div class="flex items-center gap-2 bg-slate-800 p-1 rounded border border-slate-700 hover:border-slate-500 transition-colors">
+                    <input type="color" id="color-temp" value="#ff5555" class="w-6 h-6 border-0 p-0 cursor-pointer rounded bg-transparent">
+                    <label class="text-[10px] text-slate-300 cursor-pointer">Temp Color</label>
                 </div>
             </div>
-            <div style="width: 80px;"><label style="font-size: 0.7rem; color: var(--col-ram); font-weight: bold;">Thickness:</label><input type="number" id="config-thickness" value="14" min="1" max="40" style="width: 100%; background: #44475a; color: white; border: 1px solid var(--col-ram); padding: 4px; border-radius: 3px; box-sizing: border-box;"></div>
         </div>
 
-        <div style="display: flex; gap: 5px; margin-top: 2px;">
-            <div style="flex-grow:1;"><label style="font-size: 0.7rem; color: var(--col-accent);">Window Align:</label>
-                <select id="config-align" style="width: 100%; background: #44475a; color: white; border: none; padding: 4px; border-radius: 3px;">
-                    <option value="top_right">Top Right</option><option value="top_left">Top Left</option>
-                    <option value="bottom_right">Bottom Right</option><option value="bottom_left">Bottom Left</option>
-                </select>
+        <!-- Global Settings -->
+        <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">⚙️ Settings</h2>
+
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                    <label class="block text-[10px] text-cyan-400 mb-1">Width (px):</label>
+                    <input type="number" id="config-width" value="400" class="w-full bg-slate-800 border border-slate-600 text-white rounded px-2 py-1 text-xs focus:outline-none focus:border-cyan-400">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-cyan-400 mb-1">Height (px):</label>
+                    <input type="number" id="config-height" value="1000" class="w-full bg-slate-800 border border-slate-600 text-white rounded px-2 py-1 text-xs focus:outline-none focus:border-cyan-400">
+                </div>
             </div>
-            <div style="flex-grow:1;"><label style="font-size: 0.7rem; color: var(--col-accent);">Monitor ID:</label><input type="number" id="config-monitor" value="1" min="0" style="width: 100%; background: #44475a; color: white; border: none; padding: 4px; border-radius: 3px;"></div>
+
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                    <label class="block text-[10px] text-green-400 font-bold mb-1">Web Zoom:</label>
+                    <input type="number" id="config-scale" value="1.0" step="0.1" min="0.5" max="4.0" class="w-full bg-slate-800 border border-green-700 focus:border-green-400 text-white rounded px-2 py-1 text-xs focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] text-red-400 font-bold mb-1">Line Height (Y):</label>
+                    <input type="number" id="config-lineheight" value="16" min="10" max="30" class="w-full bg-slate-800 border border-red-700 focus:border-red-400 text-white rounded px-2 py-1 text-xs focus:outline-none">
+                </div>
+            </div>
+
+            <div class="flex gap-2 mb-2">
+                <div class="flex-grow">
+                    <label class="block text-[10px] text-purple-400 font-bold mb-1">System Font:</label>
+                    <div class="flex gap-1">
+                        <select id="config-font" class="w-full bg-slate-800 border border-purple-700 focus:border-purple-400 text-white rounded px-2 py-1 text-xs focus:outline-none">
+                            <option value="DejaVu Sans">DejaVu Sans</option>
+                            <option value="Ubuntu">Ubuntu</option>
+                            <option value="Noto Sans">Noto Sans</option>
+                            <option value="Roboto">Roboto</option>
+                            <option value="Hack">Hack (Mono)</option>
+                            <option value="Fira Code">Fira Code (Mono)</option>
+                            <option value="Liberation Sans">Liberation Sans</option>
+                            <option value="Arial">Arial</option>
+                            <option value="CUSTOM">Custom Font...</option>
+                        </select>
+                        <input type="text" id="config-font-custom" placeholder="e.g.: Terminus" class="hidden w-1/2 bg-slate-800 border border-purple-700 text-white rounded px-2 py-1 text-xs focus:outline-none">
+                    </div>
+                </div>
+                <div class="w-16">
+                    <label class="block text-[10px] text-purple-400 font-bold mb-1">Thickness:</label>
+                    <input type="number" id="config-thickness" value="14" min="1" max="40" class="w-full bg-slate-800 border border-purple-700 focus:border-purple-400 text-white rounded px-2 py-1 text-xs focus:outline-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 mb-2">
+                <div>
+                    <label class="block text-[10px] text-cyan-400 mb-1">Alignment:</label>
+                    <select id="config-align" class="w-full bg-slate-800 border border-slate-600 text-white rounded px-2 py-1 text-xs focus:outline-none focus:border-cyan-400">
+                        <option value="top_right">Top Right</option>
+                        <option value="top_left">Top Left</option>
+                        <option value="bottom_right">Bottom Right</option>
+                        <option value="bottom_left">Bottom Left</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-cyan-400 mb-1">Monitor ID:</label>
+                    <input type="number" id="config-monitor" value="1" min="0" class="w-full bg-slate-800 border border-slate-600 text-white rounded px-2 py-1 text-xs focus:outline-none focus:border-cyan-400">
+                </div>
+            </div>
+
+            <div class="mt-2">
+                <label class="block text-[10px] text-cyan-400 mb-1">Absolute Lua Script Path:</label>
+                <input type="text" id="config-luapath" value="/home/user/.config/conky/visuals.lua" class="w-full bg-slate-800 border border-slate-600 text-white rounded px-2 py-1 text-xs focus:outline-none focus:border-cyan-400 font-mono">
+            </div>
+
+            <button class="w-full mt-3 py-1 bg-slate-700 hover:bg-slate-600 border border-slate-500 rounded text-xs text-white transition-colors flex items-center justify-center gap-2 shadow-sm tool-btn" id="toggle-preview">
+                👁️ Preview Mode
+            </button>
         </div>
 
-        <div style="margin-top: 2px;">
-            <label style="font-size: 0.7rem; color: var(--col-accent);">Absolute Lua Script Path:</label>
-            <input type="text" id="config-luapath" value="/home/user/.config/conky/visuals.lua" style="width: 100%; background: #44475a; color: white; border: none; padding: 4px; border-radius: 3px; box-sizing: border-box;">
+        <!-- Modules: System & Hardware -->
+        <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">🛠️ Hardware</h2>
+            <div class="grid grid-cols-2 gap-1.5">
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-cpu">⚙️ CPU Bar</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-ram">🧠 RAM Bar</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-disk">💾 Disk Bar</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-disk-lua">💾 Disk (Lua)</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-temp">🌡️ Temperature</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-kernel">🐧 Kernel Info</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-cyan-800 hover:border-cyan-500 font-bold rounded px-2 py-1 text-xs text-left text-cyan-200 transition-colors" id="add-fan">🌀 Fan Speed</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-top-cpu">🔥 Top CPU</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-top-ram">💥 Top RAM</button>
+            </div>
         </div>
 
-        <button class="tool-btn" id="toggle-preview" style="text-align: center; margin-top:5px;">👁️ Preview Mode</button>
-
-        <h2>🛠️ System & Hardware</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
-            <button class="tool-btn" id="add-cpu">⚙️ CPU Bar</button>
-            <button class="tool-btn" id="add-ram">🧠 RAM Bar</button>
-            <button class="tool-btn" id="add-disk">💾 Disk Bar</button>
-            <button class="tool-btn" id="add-temp">🌡️ Temperature</button>
-            <button class="tool-btn" id="add-kernel">🐧 Kernel Info</button>
-            <button class="tool-btn" id="add-fan" style="border-color: var(--col-accent); font-weight: bold;">🌀 Fans</button>
-            <button class="tool-btn" id="add-top-cpu">🔥 Top CPU</button>
-            <button class="tool-btn" id="add-top-ram">💥 Top RAM</button>
+        <!-- Modules: Network & Extras -->
+        <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">🌐 Net & Extras</h2>
+            <div class="grid grid-cols-2 gap-1.5">
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-cyan-800 hover:border-cyan-500 font-bold rounded px-2 py-1 text-xs text-left text-cyan-200 transition-colors" id="add-clock">🕒 Clock/Date</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-green-800 hover:border-green-500 font-bold rounded px-2 py-1 text-xs text-left text-green-200 transition-colors" id="add-weather">☀️ Weather</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-weather-pro">⛅ Weather Pro</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-purple-800 hover:border-purple-500 font-bold rounded px-2 py-1 text-xs text-left text-purple-200 transition-colors" id="add-media">[▶] Media Player</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-purple-800 hover:border-purple-500 font-bold rounded px-2 py-1 text-xs text-left text-purple-200 transition-colors" id="add-audacious">🎵 Audacious</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-net">🌐 Net Speed</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-ip">🌍 Public IP</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-email">✉️ Unread Mail</button>
+                <button class="tool-btn col-span-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-center text-slate-300 transition-colors" id="add-graph-net">📉 Net Graph</button>
+            </div>
         </div>
 
-        <h2>🌐 Network & Extras</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
-            <button class="tool-btn" id="add-clock" style="border-color: var(--col-accent); font-weight: bold;">🕒 Clock / Date</button>
-            <button class="tool-btn" id="add-weather" style="border-color: var(--col-disk); font-weight: bold;">☀️ Local Weather</button>
-            <button class="tool-btn" id="add-media" style="border-color: var(--col-ram); font-weight: bold;">[▶] PlayerCTL</button>
-            <button class="tool-btn" id="add-audacious" style="border-color: var(--col-ram); font-weight: bold;">🎵 Audacious</button>
-            <button class="tool-btn" id="add-net">🌐 Net Speed</button>
-            <button class="tool-btn" id="add-ip">🌍 Public IP</button>
-            <button class="tool-btn" id="add-email">✉️ Unread Email</button>
-            <button class="tool-btn" id="add-graph-net" style="grid-column: span 2;">📉 Net Graph</button>
+        <!-- Modules: Lua Matrix -->
+        <div class="bg-slate-900/50 p-3 rounded-lg border border-slate-700 mb-4">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">📊 Lua Matrix (Cairo)</h2>
+            <div class="grid grid-cols-2 gap-1.5">
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-red-800 hover:border-red-500 font-bold rounded px-2 py-1 text-xs text-left text-red-200 transition-colors" id="add-text-horiz">🔡 Horiz Text</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-red-800 hover:border-red-500 font-bold rounded px-2 py-1 text-xs text-left text-red-200 transition-colors" id="add-text-vert">🔠 Vert Text</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-line">➖ Line</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-line-diag">📐 Diagonal</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-geometry">⭕ Geometry</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-green-400 text-green-400 rounded px-2 py-1 text-xs text-left shadow-[0_0_5px_rgba(80,250,123,0.3)] transition-colors" id="add-neon">⚡ Neon</button>
+                <button class="tool-btn col-span-2 bg-slate-800 hover:bg-slate-700 border border-cyan-600 font-bold rounded px-2 py-1 text-xs text-center text-cyan-200 transition-colors" id="add-analog-clock">🧭 ANALOG CLOCK</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-yellow-400 text-yellow-300 rounded px-2 py-1 text-xs text-left shadow-[0_0_5px_rgba(241,250,140,0.3)] transition-colors" id="add-ticker">📈 Ticker</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-cyan-400 text-cyan-300 rounded px-2 py-1 text-xs text-left transition-colors" id="add-globe">🌐 3D Globe</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-green-700 hover:border-green-500 rounded px-2 py-1 text-xs text-left text-green-200 transition-colors" id="add-image">🖼️ PNG Image</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-green-700 hover:border-green-500 font-bold rounded px-2 py-1 text-xs text-left text-green-200 transition-colors" id="add-anim-png">🎬 Animated PNG</button>
+
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-purple-700 hover:border-purple-400 rounded px-2 py-1 text-xs text-left text-purple-200 transition-colors" id="add-ring-cpu">🟣 CPU Ring</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-green-700 hover:border-green-400 rounded px-2 py-1 text-xs text-left text-green-200 transition-colors" id="add-ring-ram">🟢 RAM Ring</button>
+
+                <button class="tool-btn col-span-2 bg-slate-800 hover:bg-slate-700 border border-red-700 font-bold rounded px-2 py-1 text-xs text-center text-red-200 transition-colors" id="add-ring-gpu-dual">🎯 CONCENTRIC GPU RING</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-green-700 hover:border-green-400 rounded px-2 py-1 text-xs text-left text-green-200 transition-colors" id="add-spiral-rev">🌀 Inverse Spiral</button>
+                <button class="tool-btn col-span-2 bg-slate-800 hover:bg-slate-700 border border-purple-700 font-bold rounded px-2 py-1 text-xs text-center text-purple-200 transition-colors" id="add-spiral-dna">🧬 DNA DOUBLE SPIRAL</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-cyan-700 hover:border-cyan-400 rounded px-2 py-1 text-xs text-left text-cyan-200 transition-colors" id="add-graph-fluid">🌊 Fluid Graph</button>
+
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-purple-700 hover:border-purple-400 rounded px-2 py-1 text-xs text-left text-purple-200 transition-colors" id="add-eq-cpu">📶 CPU EQ Bars</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-eq-horiz">🎚️ Horiz EQ</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-eq-circ">🎇 Radial EQ</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-eq-circ-open">🎛️ Open Radial</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-eq-concent">🎯 Concentric EQ</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-eq-concent-open">⏱️ Open Concentric</button>
+                <button class="tool-btn bg-slate-800 hover:bg-slate-700 border border-slate-700 hover:border-slate-500 rounded px-2 py-1 text-xs text-left text-slate-300 transition-colors" id="add-graph-cpu">📈 CPU Graph</button>
+            </div>
         </div>
-
-        <h2>📊 Lua Matrix (Cairo)</h2>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
-            <button class="tool-btn" id="add-text-horiz" style="border-color: var(--col-temp); font-weight: bold;">🔡 Horizontal Text</button>
-            <button class="tool-btn" id="add-text-vert" style="border-color: var(--col-temp); font-weight: bold;">🔠 Vertical Text</button>
-
-            <button class="tool-btn" id="add-analog-clock" style="grid-column: span 2; border-color: var(--col-accent); text-align: center; font-weight: bold;">🧭 ANALOG CLOCK</button>
-
-            <button class="tool-btn" id="add-image" style="border-color: var(--col-disk);">🖼️ PNG Image</button>
-            <button class="tool-btn" id="add-anim-png" style="border-color: var(--col-disk); font-weight: bold;">🎬 Animated PNG</button>
-
-            <button class="tool-btn" id="add-ring-cpu" style="border-color: var(--col-cpu);">🟣 CPU Ring</button>
-            <button class="tool-btn" id="add-ring-ram" style="border-color: var(--col-ram);">🟢 RAM Ring</button>
-
-            <button class="tool-btn" id="add-ring-gpu-dual" style="grid-column: span 2; border-color: var(--col-temp); text-align: center; font-weight: bold;">🎯 DUAL GPU CONCENTRIC RING</button>
-
-            <button class="tool-btn" id="add-eq-cpu" style="border-color: var(--col-cpu);">📶 CPU EQ Bars</button>
-            <button class="tool-btn" id="add-graph-cpu">📈 CPU Graph</button>
-        </div>
-
-        <div style="display: flex; gap: 5px; margin-top: 10px;">
-            <button class="tool-btn" id="btn-save" style="flex-grow: 1; border-color: var(--col-disk); color: var(--col-disk); text-align: center;">💾 Save</button>
-            <button class="tool-btn" id="btn-load" style="flex-grow: 1; border-color: var(--col-accent); color: var(--col-accent); text-align: center;">📂 Load</button>
-            <button class="tool-btn" id="btn-clear" style="flex-grow: 1; border-color: var(--col-temp); color: var(--col-temp); text-align: center;">🗑️ Clear</button>
-        </div>
-        <button class="tool-btn" id="generate-btn" style="background-color: var(--col-ram); color: #282a36; font-weight: bold; text-align: center; margin-top: 5px; margin-bottom: 20px;">FORGE CONKY</button>
     </div>
 
-    <div id="workspace">
-        <div id="canvas-wrapper">
-            <div id="conky-canvas"></div>
+    <!-- MAIN WORKSPACE -->
+    <div class="flex flex-col flex-1 relative bg-slate-950">
+
+        <!-- Project Controls -->
+        <div class="absolute top-4 right-6 z-20 flex items-center gap-2 bg-slate-800/90 p-2 rounded-lg border border-slate-700 shadow-xl backdrop-blur">
+            <button class="tool-btn w-8 h-8 flex items-center justify-center rounded border border-green-600/50 hover:bg-green-600/20 text-green-400 transition-colors tooltip relative group" id="btn-save">
+                💾
+                <span class="absolute -bottom-8 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">Save Project</span>
+            </button>
+            <button class="tool-btn w-8 h-8 flex items-center justify-center rounded border border-cyan-600/50 hover:bg-cyan-600/20 text-cyan-400 transition-colors tooltip relative group" id="btn-load">
+                📂
+                <span class="absolute -bottom-8 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">Load Project</span>
+            </button>
+            <button class="tool-btn w-8 h-8 flex items-center justify-center rounded border border-red-600/50 hover:bg-red-600/20 text-red-400 transition-colors tooltip relative group" id="btn-clear">
+                🗑️
+                <span class="absolute -bottom-8 bg-black text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 whitespace-nowrap pointer-events-none transition-opacity">Clear All</span>
+            </button>
+
+            <div class="w-px h-6 bg-slate-600 mx-1"></div>
+
+            <button class="tool-btn bg-green-500 hover:bg-green-400 text-slate-900 font-bold py-1.5 px-4 rounded shadow-[0_0_10px_rgba(34,197,94,0.4)] transition-all" id="generate-btn">
+                🔥 FORGE CONKY
+            </button>
         </div>
+
+        <!-- Canvas Area -->
+        <div id="workspace" class="flex-1 overflow-auto flex items-start justify-center p-12 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]">
+            <div id="canvas-wrapper" class="relative">
+                <div id="conky-canvas" class="bg-black/60 border border-slate-700 shadow-2xl relative" style="width: 400px; height: 1000px; min-width: 400px; min-height: 1000px;"></div>
+            </div>
+        </div>
+
     </div>
 
+    <!-- MAIN SCRIPT -->
     <script src="js/script.js"></script>
 </body>
 </html>
