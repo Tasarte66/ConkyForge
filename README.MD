@@ -26,10 +26,9 @@ Before you start forging, please keep the following technical details in mind to
 
 ## 🚀 How to Use
 
-### Option 1: Try it Live (GitHub Pages)
-*(If you enable GitHub Pages, put the link here: `https://yourusername.github.io/conkyforge`)*
+### https://github.com/Tasarte66/ConkyForge
 
-### Option 2: Run it Locally
+###Run it Locally
 1. Clone or download this repository.
 2. Open `index.html` (or `indexES.html` for Spanish) in your favorite web browser.
 3. Design your perfect Conky setup using the side panel.
@@ -57,7 +56,7 @@ Once you have downloaded your forged `.zip` file:
 
 /js - The core engine (script.js) and local JSZip library for offline exporting.
 
-index.html - English interface.
+indexEN.html - English interface.
 
 indexES.html - Spanish interface.
 
