@@ -4,8 +4,6 @@
 
 ConkyForge is a powerful, 100% local web tool that allows Linux users to design, customize, and generate complex Conky desktop widgets visually—without writing a single line of code or messing with Lua scripts manually.
 
-![ConkyForge Preview](link-to-your-screenshot-here.png)
-*(Note: Replace the link above with a screenshot of your tool and your desktop!)*
 
 ## ✨ Features
 
